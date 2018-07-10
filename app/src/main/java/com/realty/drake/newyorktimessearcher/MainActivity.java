@@ -9,5 +9,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String APIKey= "c984070a9b894daf976427235eb46ea5";
     }
 }
