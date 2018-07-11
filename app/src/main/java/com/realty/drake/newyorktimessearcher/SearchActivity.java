@@ -12,6 +12,7 @@ import android.widget.GridView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.realty.drake.newyorktimessearcher.adapters.ArticleArrayAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +28,7 @@ public class SearchActivity extends AppCompatActivity {
     Button btnSearch;
     String NYT_API_KEY = "c984070a9b894daf976427235eb46ea5";
     ArrayList<Article> articles;
-
+    ArticleArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,8 @@ public class SearchActivity extends AppCompatActivity {
         gvResults = (GridView) findViewById(R.id.gvResults);
         btnSearch = (Button) findViewById(R.id.btnSearch);
         articles = new ArrayList<>();
+        adapter = new ArticleArrayAdapter(this, articles);
+        gvResults.setAdapter(adapter);
     }
 
     public void onArticleSearch(View view) {
@@ -72,7 +75,7 @@ public class SearchActivity extends AppCompatActivity {
                     articleJsonResults = response
                             .getJSONObject("response")
                             .getJSONArray("docs");
-                    articles.addAll(Article.fromJsonArray(articleJsonResults));
+                    adapter.addAll(Article.fromJsonArray(articleJsonResults));
                     Log.d("DEBUG", articles.toString());
                 }catch (JSONException e) {
                     e.printStackTrace();
