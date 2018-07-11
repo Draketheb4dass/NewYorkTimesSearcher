@@ -1,12 +1,15 @@
 package com.realty.drake.newyorktimessearcher;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Article {
+public class Article implements Parcelable {
 
     String webUrl;
     String headline;
@@ -55,5 +58,35 @@ public class Article {
             }
         }return results;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.webUrl);
+        dest.writeString(this.headline);
+        dest.writeString(this.thumbNail);
+    }
+
+    protected Article(Parcel in) {
+        this.webUrl = in.readString();
+        this.headline = in.readString();
+        this.thumbNail = in.readString();
+    }
+
+    public static final Parcelable.Creator<Article> CREATOR = new Parcelable.Creator<Article>() {
+        @Override
+        public Article createFromParcel(Parcel source) {
+            return new Article(source);
+        }
+
+        @Override
+        public Article[] newArray(int size) {
+            return new Article[size];
+        }
+    };
 }
 
