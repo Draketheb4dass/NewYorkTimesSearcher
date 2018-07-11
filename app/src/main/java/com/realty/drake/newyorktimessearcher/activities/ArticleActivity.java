@@ -6,6 +6,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.realty.drake.newyorktimessearcher.Article;
 import com.realty.drake.newyorktimessearcher.R;
 
 public class ArticleActivity extends AppCompatActivity {
@@ -15,15 +16,16 @@ public class ArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 
-        final String url = getIntent().getStringExtra("url");
+        Article article = getIntent().getParcelableExtra("article");
         WebView webView =(WebView) findViewById(R.id.wvArticle);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
              view.loadUrl(url);
              return true;
             }
         });
+        webView.loadUrl(article.getWebUrl());
     }
 }
