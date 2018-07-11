@@ -38,7 +38,6 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
 
         //clear out recycled image from last time
         imageView.setImageResource(0);
-
         TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTile);
         assert article != null;
         tvTitle.setText(article.getHeadline());
