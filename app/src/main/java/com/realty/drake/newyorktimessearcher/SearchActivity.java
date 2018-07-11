@@ -1,8 +1,6 @@
 package com.realty.drake.newyorktimessearcher;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -10,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -20,13 +17,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import cz.msebera.android.httpclient.Header;
 
 public class SearchActivity extends AppCompatActivity {
     EditText etQuery;
     GridView gvResults;
     Button btnSearch;
-    String APIKey= "c984070a9b894daf976427235eb46ea5";
+    String NYT_API_KEY = "c984070a9b894daf976427235eb46ea5";
+    ArrayList<Article> articles;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class SearchActivity extends AppCompatActivity {
         etQuery = (EditText) findViewById(R.id.etQuery);
         gvResults = (GridView) findViewById(R.id.gvResults);
         btnSearch = (Button) findViewById(R.id.btnSearch);
+        articles = new ArrayList<>();
     }
 
     public void onArticleSearch(View view) {
@@ -56,7 +58,7 @@ public class SearchActivity extends AppCompatActivity {
         String SEARCH_API_URL =
                 "https://api.nytimes.com/svc/search/v2/articlesearch.json";
         RequestParams params = new RequestParams();
-        params.put("api-key", APIKey);
+        params.put("api-key", NYT_API_KEY);
         params.put("page", 0);
         params.put("q", query);
 
@@ -70,6 +72,8 @@ public class SearchActivity extends AppCompatActivity {
                     articleJsonResults = response
                             .getJSONObject("response")
                             .getJSONArray("docs");
+                    articles.addAll(Article.fromJsonArray(articleJsonResults));
+                    Log.d("DEBUG", articles.toString());
                 }catch (JSONException e) {
                     e.printStackTrace();
                 }
