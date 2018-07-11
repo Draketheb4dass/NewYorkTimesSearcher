@@ -38,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
 
     public void onArticleSearch(View view) {
         String query = etQuery.getText().toString();
-        Toast.makeText(this, "Searching for" + query,
+        Toast.makeText(this, "Searching for " + query,
                 Toast.LENGTH_SHORT).show();
     }
 }
