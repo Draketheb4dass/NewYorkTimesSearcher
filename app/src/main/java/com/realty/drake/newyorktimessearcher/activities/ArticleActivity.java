@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.realty.drake.newyorktimessearcher.Article;
 import com.realty.drake.newyorktimessearcher.R;
 
+import org.parceler.Parcels;
+
 public class ArticleActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
 
     @Override
@@ -25,14 +27,16 @@ public class ArticleActivity extends AppCompatActivity implements Toolbar.OnMenu
         setSupportActionBar(myToolbar);
         myToolbar.setOnMenuItemClickListener(this);
 
-        Article article = getIntent().getParcelableExtra("article");
+        Article article = (Article) Parcels
+                .unwrap(getIntent()
+                        .getParcelableExtra("article"));
         WebView webView =(WebView) findViewById(R.id.wvArticle);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-             view.loadUrl(url);
-             return true;
+                view.loadUrl(url);
+                return true;
             }
         });
         webView.loadUrl(article.getWebUrl());
@@ -40,7 +44,9 @@ public class ArticleActivity extends AppCompatActivity implements Toolbar.OnMenu
 
     @Override
     public boolean onMenuItemClick(MenuItem item){
-        Article article = getIntent().getParcelableExtra("article");
+        Article article = (Article) Parcels
+                .unwrap(getIntent()
+                        .getParcelableExtra("article"));
         switch (item.getItemId()) {
             //Share link Intent
             case R.id.action_share:
@@ -48,7 +54,7 @@ public class ArticleActivity extends AppCompatActivity implements Toolbar.OnMenu
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Check this out");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, article.getWebUrl());
-                startActivity(shareIntent.createChooser(shareIntent, article.getWebUrl()));
+                startActivity(Intent.createChooser(shareIntent, article.getWebUrl()));
                 return true;
         }
         return true;
