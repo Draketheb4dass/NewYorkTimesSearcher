@@ -15,7 +15,8 @@ import com.realty.drake.newyorktimessearcher.R;
 
 import org.parceler.Parcels;
 
-public class ArticleActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
+public class ArticleActivity extends AppCompatActivity
+        implements Toolbar.OnMenuItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
