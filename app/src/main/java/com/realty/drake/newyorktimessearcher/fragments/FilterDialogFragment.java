@@ -15,3 +15,4 @@ import com.realty.drake.newyorktimessearcher.R;
 public class FilterDialogFragment extends DialogFragment {
 
 }
+
