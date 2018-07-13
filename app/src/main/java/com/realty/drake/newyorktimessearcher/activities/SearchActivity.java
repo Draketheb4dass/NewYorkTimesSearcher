@@ -28,6 +28,8 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -38,6 +40,7 @@ public class SearchActivity extends AppCompatActivity implements Toolbar.OnMenuI
     String NYT_API_KEY = "c984070a9b894daf976427235eb46ea5";
     ArrayList<Article> articles;
     ArticleArrayAdapter adapter;
+    HashMap<String, String> filter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,14 @@ public class SearchActivity extends AppCompatActivity implements Toolbar.OnMenuI
         setSupportActionBar(myToolbar);
         myToolbar.setOnMenuItemClickListener(this);
         setupViews();
+
+        Button btnSearch = findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onArticleSearch(v, filter);
+            }
+        });
     }
 
     public void setupViews() {
@@ -75,15 +86,16 @@ public class SearchActivity extends AppCompatActivity implements Toolbar.OnMenuI
             }
         });
     }
-    //make API request
-    public void onArticleSearch(View view) {
+    //TODO try to add hashmap as a param and listenr would call onArticle with that param
+    //make API request with @params
+    public void onArticleSearch(View view, HashMap<String, String> filter) {
         String query = etQuery.getText().toString();
         //Toast.makeText(this, "Searching for " + query,
         //        Toast.LENGTH_SHORT).show();
         AsyncHttpClient client = new AsyncHttpClient();
         String SEARCH_API_URL =
                 "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-        RequestParams params = new RequestParams();
+        RequestParams params = new RequestParams(filter);
         params.put("api-key", NYT_API_KEY);
         params.put("page", 0);
         params.put("q", query);
