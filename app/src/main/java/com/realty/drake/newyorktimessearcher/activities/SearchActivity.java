@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -40,7 +41,7 @@ public class SearchActivity extends AppCompatActivity implements Toolbar.OnMenuI
     String NYT_API_KEY = "c984070a9b894daf976427235eb46ea5";
     ArrayList<Article> articles;
     ArticleArrayAdapter adapter;
-    HashMap<String, String> filter = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,8 @@ public class SearchActivity extends AppCompatActivity implements Toolbar.OnMenuI
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HashMap<String, String> filter = new HashMap<>();
+                filter.put("fq", "news_desk:(%22Education%22)");
                 onArticleSearch(v, filter);
             }
         });
@@ -111,6 +114,11 @@ public class SearchActivity extends AppCompatActivity implements Toolbar.OnMenuI
                             .getJSONObject("response")
                             .getJSONArray("docs");
                     adapter.addAll(Article.fromJsonArray(articleJsonResults));
+                    if(articleJsonResults.length()==0){
+                        //TODO Handling no article
+                        Toast.makeText(SearchActivity.this,
+                                "no article", Toast.LENGTH_SHORT).show();
+                    }
                     Log.d("DEBUG", articles.toString());
                 }catch (JSONException e) {
                     e.printStackTrace();
