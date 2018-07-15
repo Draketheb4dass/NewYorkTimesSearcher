@@ -14,9 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,13 +34,14 @@ import java.util.Locale;
 
 public class FilterDialogFragment extends DialogFragment  {
     private Button mBtnSubmitFilt;
+    static private HashMap<String, String> filter = new HashMap<>();
 
     public FilterDialogFragment() {} //Empty Constructor is required for DialogFragment
 
 
     //Defines the listener interface with a method passing back data result.
     public interface FilterDialogListener{
-        void onFinishFilterDialog(HashMap filter);
+        void onFinishFilterDialog(HashMap<String, String> filter);
     }
 
     public static FilterDialogFragment newInstance(String title) {
@@ -56,11 +61,20 @@ public class FilterDialogFragment extends DialogFragment  {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final Spinner spnOrder=(Spinner) view.findViewById(R.id.spnOrder);
+        ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource(getContext(), R.array.spinnerItems,
+                        android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnOrder.setAdapter(adapter);
+
+        final CheckBox sport = (CheckBox) view.findViewById(R.id.chbSports);
+
         // Get field from view
         // = (EditText) view.findViewById(R.id.txt_your_name);
         // Fetch arguments from bundle and set title
         assert getArguments() != null;
-        String title = getArguments().getString("title", "Enter Name");
+        String title = getArguments().getString("title", "Filter Search");
         getDialog().setTitle(title);
 
         //Send data back to fragment
@@ -69,7 +83,19 @@ public class FilterDialogFragment extends DialogFragment  {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //TODO get DialogFragment data and put it in Hashmap filter
+                       String sortOrder =  spnOrder.getSelectedItem().toString();
+                        filter.put("sort",sortOrder);
+                        if(sport.isChecked()){
+                            filter.put("fq","news_desk:(%20Sports%20)");
+                        }
+
+                        // Return HashMap back to activity through the implemented listener
+                        FilterDialogListener listener = (FilterDialogListener) getActivity();
+                        assert listener != null;
+                        listener.onFinishFilterDialog(filter);
                         dismiss();
+
                     }
                 }
         );

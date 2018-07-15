@@ -30,17 +30,20 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
-public class SearchActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
+public class SearchActivity extends AppCompatActivity implements
+        Toolbar.OnMenuItemClickListener, FilterDialogFragment.FilterDialogListener {
     EditText etQuery;
     GridView gvResults;
     Button btnSearch;
     String NYT_API_KEY = "c984070a9b894daf976427235eb46ea5";
     ArrayList<Article> articles;
     ArticleArrayAdapter adapter;
+    static final String SEARCH_API_URL =
+            "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+    static String query;
 
 
     @Override
@@ -58,9 +61,7 @@ public class SearchActivity extends AppCompatActivity implements Toolbar.OnMenuI
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, String> filter = new HashMap<>();
-                filter.put("fq", "news_desk:(%22Education%22)");
-                onArticleSearch(v, filter);
+                onArticleSearch(null);
             }
         });
     }
@@ -89,15 +90,19 @@ public class SearchActivity extends AppCompatActivity implements Toolbar.OnMenuI
             }
         });
     }
+
+    @Override
+    public void onFinishFilterDialog(HashMap<String, String> filter) {
+        onArticleSearch(filter);
+    }
+
     //TODO try to add hashmap as a param and listenr would call onArticle with that param
     //make API request with @params
-    public void onArticleSearch(View view, HashMap<String, String> filter) {
-        String query = etQuery.getText().toString();
+    public void onArticleSearch(HashMap<String, String> filter) {
+        query = etQuery.getText().toString();
         //Toast.makeText(this, "Searching for " + query,
         //        Toast.LENGTH_SHORT).show();
         AsyncHttpClient client = new AsyncHttpClient();
-        String SEARCH_API_URL =
-                "https://api.nytimes.com/svc/search/v2/articlesearch.json";
         RequestParams params = new RequestParams(filter);
         params.put("api-key", NYT_API_KEY);
         params.put("page", 0);
