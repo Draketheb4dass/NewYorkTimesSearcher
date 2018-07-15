@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.realty.drake.newyorktimessearcher.Article;
 import com.realty.drake.newyorktimessearcher.R;
@@ -23,15 +22,15 @@ public class ArticleActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
         //Set custom AppBar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.article_toolbar);
+        Toolbar myToolbar = findViewById(R.id.article_toolbar);
         myToolbar.inflateMenu(R.menu.menu_detail);
         setSupportActionBar(myToolbar);
         myToolbar.setOnMenuItemClickListener(this);
 
-        Article article = (Article) Parcels
+        Article article = Parcels
                 .unwrap(getIntent()
                         .getParcelableExtra("article"));
-        WebView webView =(WebView) findViewById(R.id.wvArticle);
+        WebView webView = findViewById(R.id.wvArticle);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -45,7 +44,7 @@ public class ArticleActivity extends AppCompatActivity
 
     @Override
     public boolean onMenuItemClick(MenuItem item){
-        Article article = (Article) Parcels
+        Article article = Parcels
                 .unwrap(getIntent()
                         .getParcelableExtra("article"));
         switch (item.getItemId()) {

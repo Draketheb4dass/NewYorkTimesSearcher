@@ -51,7 +51,7 @@ public class SearchActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         //Set custom AppBar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.search_toolbar);
+        Toolbar myToolbar = findViewById(R.id.search_toolbar);
         myToolbar.inflateMenu(R.menu.menu_search);
         setSupportActionBar(myToolbar);
         myToolbar.setOnMenuItemClickListener(this);
@@ -67,9 +67,9 @@ public class SearchActivity extends AppCompatActivity implements
     }
 
     public void setupViews() {
-        etQuery = (EditText) findViewById(R.id.etQuery);
-        gvResults = (GridView) findViewById(R.id.gvResults);
-        btnSearch = (Button) findViewById(R.id.btnSearch);
+        etQuery = findViewById(R.id.etQuery);
+        gvResults = findViewById(R.id.gvResults);
+        btnSearch = findViewById(R.id.btnSearch);
         articles = new ArrayList<>();
         adapter = new ArticleArrayAdapter(this, articles);
         gvResults.setAdapter(adapter);
@@ -113,6 +113,8 @@ public class SearchActivity extends AppCompatActivity implements
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("DEBUG", response.toString());
                 JSONArray articleJsonResults = null;
+                //Clear the view for every search
+                adapter.clear();
 
                 try {
                     articleJsonResults = response
