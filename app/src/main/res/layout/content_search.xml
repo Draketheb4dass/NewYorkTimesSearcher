@@ -17,17 +17,17 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/btnSearch"
         android:layout_toStartOf="@+id/btnSearch"
-        android:hint="@string/enter_search" />
-
+        android:hint="@string/enter_search"
+         />
     <Button
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/search"
-        />
+        android:text="@string/search" />
 
     <GridView
         android:id="@+id/gvResults"

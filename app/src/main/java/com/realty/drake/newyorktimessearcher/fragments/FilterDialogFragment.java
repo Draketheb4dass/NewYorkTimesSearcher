@@ -1,54 +1,38 @@
 package com.realty.drake.newyorktimessearcher.fragments;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.realty.drake.newyorktimessearcher.R;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 
 
-public class FilterDialogFragment extends DialogFragment  {
-    private Button mBtnSubmitFilt;
+public class FilterDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener, DatePickerFragment.DatePickerListener {
     static private HashMap<String, String> filter = new HashMap<>();
+    private Button mBtnSubmitFilt;
+    static  EditText etDate;
+    static  String beginDate;
 
     public FilterDialogFragment() {} //Empty Constructor is required for DialogFragment
-
-
-    //Defines the listener interface with a method passing back data result.
-    public interface FilterDialogListener{
-        void onFinishFilterDialog(HashMap<String, String> filter);
-    }
 
     public static FilterDialogFragment newInstance(String title) {
         FilterDialogFragment frag = new FilterDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putString("Filter Search by", title);
         frag.setArguments(args);
         return frag;
     }
@@ -62,7 +46,8 @@ public class FilterDialogFragment extends DialogFragment  {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final Spinner spnOrder=(Spinner) view.findViewById(R.id.spnOrder);
+
+        final Spinner spnOrder= view.findViewById(R.id.spnOrder);
         ArrayAdapter<CharSequence> adapter =
                 ArrayAdapter.createFromResource(getContext(), R.array.spinnerItems,
                         android.R.layout.simple_spinner_item);
@@ -73,20 +58,31 @@ public class FilterDialogFragment extends DialogFragment  {
         final CheckBox art = view.findViewById(R.id.chbArt);
         final CheckBox fashionAndStyle = view.findViewById(R.id.chbFashion);
 
-        // Get field from view
-        // = (EditText) view.findViewById(R.id.txt_your_name);
-        // Fetch arguments from bundle and set title
         assert getArguments() != null;
-        String title = getArguments().getString("title", "Filter Search");
+        String title = getArguments().getString("title", "Filter Search by");
         getDialog().setTitle(title);
 
+        //Call DatePickerFragment
+        etDate = view.findViewById(R.id.etDate);
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerFragment datePickerFragment = new DatePickerFragment();
+                assert getFragmentManager() != null;
+                datePickerFragment.show(getFragmentManager(), "datePicker");
+            }
+        });
+
         //Send data back to fragment
-        mBtnSubmitFilt = (Button) view.findViewById(R.id.button);
+        mBtnSubmitFilt = view.findViewById(R.id.button);
         mBtnSubmitFilt.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //TODO get DialogFragment data and put it in Hashmap filter
+                        if(!(beginDate.equals(""))) {
+                            filter.put("begin_date", beginDate);
+                        }
                         String sortOrder =  spnOrder.getSelectedItem().toString();
                         filter.put("sort",sortOrder);
                         //Initialize String variable for the checkboxes
@@ -103,7 +99,7 @@ public class FilterDialogFragment extends DialogFragment  {
                         if(fashionAndStyle.isChecked()) { fashionValue = " \"Fashion & Style\" ";
                         }
                         //Check Emptiness of checkboxes
-                        //If all checkboxes are null, the query will return error page :-\
+                        //If all checkboxes are null, the query will return nothing :-\
                         if(!(sportValue.equals("") && artValue.equals("") && fashionValue.equals(""))) {
                             String newsDesk = "news_desk:(" + sportValue + artValue + fashionValue + ")";
                             filter.put("fq", newsDesk);
@@ -114,12 +110,9 @@ public class FilterDialogFragment extends DialogFragment  {
                         assert listener != null;
                         listener.onFinishFilterDialog(filter);
                         dismiss();
-
                     }
                 }
         );
-
-
     }
 
     @Override
@@ -131,7 +124,34 @@ public class FilterDialogFragment extends DialogFragment  {
         getDialog().getWindow().setLayout(width, height);
     }
 
+    //Defines the listener interface with a method passing back data result.
+    public interface FilterDialogListener{
+        void onFinishFilterDialog(HashMap<String, String> filter);
+    }
 
+    //beginDate Picker Implementation
+    // handle the date selected
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        // store the values selected into a Calendar instance
+        final Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, monthOfYear);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        //Formatting the beginDate as YYYYMMDD
+        DecimalFormat mFormat= new DecimalFormat("00");
+        String month = mFormat.format(Double.valueOf(dayOfMonth));
+        String day = mFormat.format(Double.valueOf(dayOfMonth));
+        beginDate = year + month + day;
+        //Format the onFinishDatePickerDialog argument
+        String date = month + "/" + day + "/" + year;
+        onFinishDatePickerDialog(date);
+    }
+
+    @Override
+    public void onFinishDatePickerDialog(String date) {
+        etDate.setText(date);
+    }
 
     // Calendar calendar = Calendar.getInstance();
     // EditText etDate = (EditText) View.findViewById(R.id.etDate);

@@ -142,7 +142,7 @@ public class SearchActivity extends AppCompatActivity implements
             //Filter Intent
             case R.id.action_filter:
                 FragmentManager fm = getSupportFragmentManager();
-                FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance("Search Filter");
+                FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance("Filter Search by");
                 filterDialogFragment.show(fm, "fragment_filter_search");
                 return true;
         }

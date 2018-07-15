@@ -14,7 +14,7 @@ public class Article {
     String headline;
     String thumbNail;
 
-    // empty constructor needed by the Parceler library
+    // Empty constructor needed by the Parceler library
     public Article() {}
 
     public String getWebUrl() {
