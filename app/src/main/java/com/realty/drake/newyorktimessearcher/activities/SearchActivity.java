@@ -8,8 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -57,12 +55,7 @@ public class SearchActivity extends AppCompatActivity implements
         setupViews();
 
         Button btnSearch = findViewById(R.id.btnSearch);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onArticleSearch(null);
-            }
-        });
+        btnSearch.setOnClickListener(v -> onArticleSearch(null));
 
         //Check internet connection
         new InternetCheck(internet -> {
@@ -83,19 +76,15 @@ public class SearchActivity extends AppCompatActivity implements
         gvResults.setAdapter(adapter);
 
         //Hook up listener for grid click
-        gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Intent to display article
-                Intent i = new Intent(getApplicationContext(), ArticleActivity.class);
-                //get the article to display
-                Article article = articles.get(position);
-                //pass that article to intent
-                i.putExtra("article", Parcels.wrap(article));
-                //launch activity
-                startActivity(i);
-            }
+        gvResults.setOnItemClickListener((parent, view, position, id) -> {
+            //Intent to display article
+            Intent i = new Intent(getApplicationContext(), ArticleActivity.class);
+            //get the article to display
+            Article article = articles.get(position);
+            //pass that article to intent
+            i.putExtra("article", Parcels.wrap(article));
+            //launch activity
+            startActivity(i);
         });
     }
 

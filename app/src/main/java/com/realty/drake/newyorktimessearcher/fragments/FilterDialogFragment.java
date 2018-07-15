@@ -2,6 +2,7 @@ package com.realty.drake.newyorktimessearcher.fragments;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -38,13 +39,13 @@ public class FilterDialogFragment extends DialogFragment implements DatePickerDi
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_filter_dialog, container);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         final Spinner spnOrder= view.findViewById(R.id.spnOrder);
@@ -64,53 +65,47 @@ public class FilterDialogFragment extends DialogFragment implements DatePickerDi
 
         //Call DatePickerFragment
         etDate = view.findViewById(R.id.etDate);
-        etDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerFragment datePickerFragment = new DatePickerFragment();
-                assert getFragmentManager() != null;
-                datePickerFragment.show(getFragmentManager(), "datePicker");
-            }
+        etDate.setOnClickListener(v -> {
+            DatePickerFragment datePickerFragment = new DatePickerFragment();
+            assert getFragmentManager() != null;
+            datePickerFragment.show(getFragmentManager(), "datePicker");
         });
 
         //Send data back to fragment
         mBtnSubmitFilt = view.findViewById(R.id.button);
         mBtnSubmitFilt.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //TODO get DialogFragment data and put it in Hashmap filter
-                        if(!(beginDate.equals(""))) {
-                            filter.put("begin_date", beginDate);
-                        }
-                        String sortOrder =  spnOrder.getSelectedItem().toString();
-                        filter.put("sort",sortOrder);
-                        //Initialize String variable for the checkboxes
-                        String sportValue = "";
-                        String artValue = "";
-                        String fashionValue = "";
-                        //Insert value depending if Checkbox is checked
-                        if(sport.isChecked()){
-                            //
-                            sportValue = " \"Sport\" ";
-                        }
-                        if(art.isChecked()) { artValue = "\"Arts\"";
-                        }
-                        if(fashionAndStyle.isChecked()) { fashionValue = " \"Fashion & Style\" ";
-                        }
-                        //Check Emptiness of checkboxes
-                        //If all checkboxes are null, the query will return nothing :-\
-                        if(!(sportValue.equals("") && artValue.equals("") && fashionValue.equals(""))) {
-                            String newsDesk = "news_desk:(" + sportValue + artValue + fashionValue + ")";
-                            filter.put("fq", newsDesk);
-                        }
-
-                        // Return HashMap back to activity through the implemented listener
-                        FilterDialogListener listener = (FilterDialogListener) getActivity();
-                        assert listener != null;
-                        listener.onFinishFilterDialog(filter);
-                        dismiss();
+                v -> {
+                    //TODO get DialogFragment data and put it in Hashmap filter
+                    if(!(beginDate.equals(""))) {
+                        filter.put("begin_date", beginDate);
                     }
+                    String sortOrder =  spnOrder.getSelectedItem().toString();
+                    filter.put("sort",sortOrder);
+                    //Initialize String variable for the checkboxes
+                    String sportValue = "";
+                    String artValue = "";
+                    String fashionValue = "";
+                    //Insert value depending if Checkbox is checked
+                    if(sport.isChecked()){
+                        //
+                        sportValue = " \"Sport\" ";
+                    }
+                    if(art.isChecked()) { artValue = "\"Arts\"";
+                    }
+                    if(fashionAndStyle.isChecked()) { fashionValue = " \"Fashion & Style\" ";
+                    }
+                    //Check Emptiness of checkboxes
+                    //If all checkboxes are null, the query will return nothing :-\
+                    if(!(sportValue.equals("") && artValue.equals("") && fashionValue.equals(""))) {
+                        String newsDesk = "news_desk:(" + sportValue + artValue + fashionValue + ")";
+                        filter.put("fq", newsDesk);
+                    }
+
+                    // Return HashMap back to activity through the implemented listener
+                    FilterDialogListener listener = (FilterDialogListener) getActivity();
+                    assert listener != null;
+                    listener.onFinishFilterDialog(filter);
+                    dismiss();
                 }
         );
     }

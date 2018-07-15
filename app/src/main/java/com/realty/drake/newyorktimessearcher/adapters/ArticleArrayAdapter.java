@@ -14,7 +14,6 @@ import com.realty.drake.newyorktimessearcher.Article;
 import com.realty.drake.newyorktimessearcher.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleArrayAdapter extends ArrayAdapter<Article> {
@@ -34,11 +33,11 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
                     .inflate(R.layout.item_article_result, parent, false);
         }
         //find Image View
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.ivImage);
+        ImageView imageView = convertView.findViewById(R.id.ivImage);
 
         //clear out recycled image from last time
         imageView.setImageResource(0);
-        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTile);
+        TextView tvTitle = convertView.findViewById(R.id.tvTile);
         assert article != null;
         tvTitle.setText(article.getHeadline());
 
