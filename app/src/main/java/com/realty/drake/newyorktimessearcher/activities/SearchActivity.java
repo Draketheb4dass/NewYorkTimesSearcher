@@ -45,7 +45,6 @@ public class SearchActivity extends AppCompatActivity implements
             "https://api.nytimes.com/svc/search/v2/articlesearch.json";
     static String query;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +63,16 @@ public class SearchActivity extends AppCompatActivity implements
                 onArticleSearch(null);
             }
         });
+
+        //Check internet connection
+        new InternetCheck(internet -> {
+            /* do something with boolean response */
+            if(!internet){
+                Toast.makeText(this, "no internet", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
     public void setupViews() {
         etQuery = findViewById(R.id.etQuery);
@@ -155,4 +163,5 @@ public class SearchActivity extends AppCompatActivity implements
         getMenuInflater().inflate(R.menu.menu_search, menu);
         return true;
     }
+
 }
