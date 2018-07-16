@@ -7,7 +7,7 @@
         android:id="@+id/action_share"
         app:srcCompat="@drawable/ic_share_white_24dp"
         app:showAsAction="always"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         tools:ignore="MenuTitle" />
 
 

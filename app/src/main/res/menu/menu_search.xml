@@ -8,7 +8,14 @@
         app:showAsAction="always"
         app:srcCompat="@drawable/ic_filter_list_white_24dp"
         tools:ignore="MenuTitle"
-        android:orderInCategory="50"/>
+        android:orderInCategory="2" />
+
+    <item android:id="@+id/action_search"
+        android:orderInCategory="1"
+        android:title="Search Article"
+        app:srcCompat="@drawable/ic_search_white_24dp"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
 
 
 </menu>

@@ -26,7 +26,7 @@ public class FilterDialogFragment extends DialogFragment implements DatePickerDi
     static private HashMap<String, String> filter = new HashMap<>();
     private Button mBtnSubmitFilt;
     static  EditText etDate;
-    static  String beginDate;
+    static  String beginDate="";
 
     public FilterDialogFragment() {} //Empty Constructor is required for DialogFragment
 
