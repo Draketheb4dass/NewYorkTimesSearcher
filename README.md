@@ -64,8 +64,8 @@ Describe any challenges encountered while building the app.
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
-- [Glide] (https://github.com/bumptech/glide) - Image loading and caching library for Android by Google
-- [Parceler] (https://github.com/johncarl81/parceler) Make a class Parcelable easily
+- [Glide](https://github.com/bumptech/glide) - Image loading and caching library for Android by Google
+- [Parceler](https://github.com/johncarl81/parceler) Make a class Parcelable easily
 
 ## License
 
