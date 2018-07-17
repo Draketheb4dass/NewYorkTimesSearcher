@@ -4,7 +4,7 @@
 
 **NewYorkTimes Searcher** is an android app that allows a user to search for articles on web using simple filters. The app utilizes [New York Times Search API](http://developer.nytimes.com/docs/read/article_search_api_v2).
 
-Time spent: **14** hours spent in total
+Time spent: **23** hours spent in total
 
 ## User Stories
 
@@ -48,7 +48,8 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://media.giphy.com/media/5q0vAmn9Hqo38npQ9i/giphy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://media.giphy.com/media/8w9o5ne73XQO1QtUdu/giphy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [ffmpeg](https://www.ffmpeg.org/).
 
