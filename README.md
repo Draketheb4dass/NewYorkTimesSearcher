@@ -56,6 +56,9 @@ GIF created with [ffmpeg](https://www.ffmpeg.org/).
 ## Notes
 
 Describe any challenges encountered while building the app.
+-There was a lot of user stories, not enough time to complete them all.
+-I made some dirty mistake with git commands, which took me time to correct.
+-I prefered using Observer Pattern(Listener) instead of Intent, tougher but rewarding
 
 ## Open-source libraries used
 
