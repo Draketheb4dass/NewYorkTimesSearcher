@@ -128,6 +128,13 @@ public class SearchActivity extends AppCompatActivity implements
     //TODO try to add hashmap as a param and listenr would call onArticle with that param
     //make API request with @params
     public void onArticleSearch(HashMap<String, String> filter) {
+        //Check internet connection
+        new InternetCheck(internet -> {
+            //Display no internet Toast if there's no internet
+            if (!internet) {
+                Toast.makeText(this, "no internet", Toast.LENGTH_SHORT).show();
+            }
+        });
         query = searchView.getQuery().toString();
         //Toast.makeText(this, "Searching for " + query,
         //        Toast.LENGTH_SHORT).show();
